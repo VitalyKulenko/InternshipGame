@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,80 +9,68 @@ namespace InternshipGame
 {
     class Platform : IDraw, ILocation, ISize
     {
-        private double x1;
-        private double y1;
-        private double x2;
-        private double y2;
-        private double x3;
-        private double y3;
-        private double x4;
-        private double y4;
-        private double length;
-        private double width;
+        private float x;
+        private float y;
+        private float width;
+        const int height = 15;
 
-        public double X1
+        public float X
         {
-            get { return x1; }
-            set { x1 = value; }
+            get { return x; }
+            set { x = value; }
         }
 
-        public double Y1
+        public float Y
         {
-            get { return y1; }
-            set { y1 = value; }
+            get { return y; }
+            set { y = value; }
         }
 
-        public double X2
-        {
-            get { return x2; }
-            set { x2 = value; }
-        }
-
-        public double Y2
-        {
-            get { return y2; }
-            set { y2 = value; }
-        }
-
-        public double X3
-        {
-            get { return x3; }
-            set { x3 = value; }
-        }
-
-        public double Y3
-        {
-            get { return y3; }
-            set { y3 = value; }
-        }
-
-        public double X4
-        {
-            get { return x4; }
-            set { x4 = value; }
-        }
-
-        public double Y4
-        {
-            get { return y4; }
-            set { y4 = value; }
-        }
-
-        public double Length
-        {
-            get { return length; }
-            set { length = value; }
-        }
-
-        public double Width
+        public float Width
         {
             get { return width; }
             set { width = value; }
         }
 
+        public float Height
+        {
+            get { return height; }
+        }
+
+        public Platform(float x, float y, float sizeOfPlatform)
+        {
+            this.x = x;
+            this.y = y;
+            this.width = sizeOfPlatform;
+        }
+
         public void Draw()
         {
+            Form1.graph.DrawRectangle(Pens.Black, x, y, width, height);
+        }
 
+        public void MoveLeft() // ограничитель движения влево
+        {
+            Form1.graph.Clear(Color.White);
+            if (x > 15)
+            {
+                x = x - 5;
+                Draw();
+            }
+            else
+                Draw();
+        }
+
+        public void MoveRight() // ограничитель движения вправо
+        {
+            Form1.graph.Clear(Color.White);
+            if (x < 330)
+            {
+                x = x + 5;
+                Draw();
+            }
+            else
+                Draw();
         }
     }
 }

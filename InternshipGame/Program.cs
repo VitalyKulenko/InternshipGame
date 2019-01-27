@@ -18,26 +18,20 @@ namespace InternshipGame
 
     interface IBall // радиус и движение шара
     {
-        double Radius { get; set; } // радиус
+        float X { get; set; } // левый верхний угол
+        float Y { get; set; }
         void Move();
     }
 
     interface ISize // размеры прямоугольных объектов
     {
-        double Length { get; set; } // длина
-        double Width { get; set; } // ширина
+        float Width { get; set; } // длина
     }
 
     interface ILocation // локация прямоугольных объектов
     {
-        double X1 { get; set; } // левый верхний угол
-        double Y1 { get; set; }
-        double X2 { get; set; } // правый верхний угол
-        double Y2 { get; set; }
-        double X3 { get; set; } // левый нижний угол
-        double Y3 { get; set; }
-        double X4 { get; set; } // правый нижний угол
-        double Y4 { get; set; }
+        float X { get; set; } // левый верхний угол
+        float Y { get; set; }
     }
 
     static class Program
