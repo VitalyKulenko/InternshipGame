@@ -55,7 +55,7 @@
             this.ClientSize = new System.Drawing.Size(414, 500);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
-            this.Text = "Арканоид";
+            this.Text = "Arkanoid";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

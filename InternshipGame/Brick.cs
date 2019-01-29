@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace InternshipGame
 {
-    class Brick : IDraw, ILocation, ISize, IDisappear
+    class Brick : IDraw, ILocation, ISize
     {
         private float x;
         private float y;
-        private float width;
-        public const int height = 15;
+        private float width; // ширина
+        public const int height = 15; // высота
 
         public float X
         {
@@ -32,6 +27,11 @@ namespace InternshipGame
             set { width = value; }
         }
 
+        public float Height
+        {
+            get { return height; }
+        }
+
         public Brick(float x, float y, float width)
         {
             this.x = x;
@@ -39,14 +39,9 @@ namespace InternshipGame
             this.width = width;
         }
 
-        public void Draw()
+        public void Draw() // рисование объекта
         {
             Form1.graph.DrawRectangle(Pens.Black, x, y, width, height);
-        }
-
-        public void Disappear()
-        {
-
         }
     }
 }

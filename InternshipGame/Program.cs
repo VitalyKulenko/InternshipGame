@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace InternshipGame
@@ -9,11 +6,6 @@ namespace InternshipGame
     interface IDraw // рисование
     {
         void Draw();
-    }
-
-    interface IDisappear // исчезновение
-    {
-        void Disappear();
     }
 
     interface IBall // радиус и движение шара

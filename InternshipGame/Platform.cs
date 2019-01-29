@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace InternshipGame
 {
@@ -11,8 +6,8 @@ namespace InternshipGame
     {
         private float x;
         private float y;
-        private float width;
-        const int height = 15;
+        private float width; // ширина
+        const int height = 15; // высота
 
         public float X
         {
@@ -44,7 +39,7 @@ namespace InternshipGame
             this.width = sizeOfPlatform;
         }
 
-        public void Draw()
+        public void Draw() // рисование объекта
         {
             Form1.graph.DrawRectangle(Pens.Black, x, y, width, height);
         }

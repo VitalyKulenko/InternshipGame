@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Drawing;
 
 namespace InternshipGame
 {
@@ -12,10 +6,10 @@ namespace InternshipGame
     {
         private float x;
         private float y;
-        const int width = 10;
-        const int height = 10;
-        private float angle;
-        private float speed;
+        const int width = 10; // ширина
+        const int height = 10; // высота
+        private float angle; // угол движения
+        private float speed; // скорость движения
 
         public float X
         {
@@ -59,7 +53,7 @@ namespace InternshipGame
             this.speed = speed;
         }
 
-        public void Draw()
+        public void Draw() // рисование объекта
         {
             Form1.graph.DrawEllipse(Pens.Black, x, y, width, height);
         }
