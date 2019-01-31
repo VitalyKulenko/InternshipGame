@@ -3,16 +3,10 @@ using System.Windows.Forms;
 
 namespace InternshipGame
 {
-    interface IDraw // рисование
-    {
-        void Draw();
-    }
-
-    interface IBall // радиус и движение шара
+    interface IBall // размер шара
     {
         float X { get; set; } // левый верхний угол
         float Y { get; set; }
-        void Move();
     }
 
     interface ISize // размеры прямоугольных объектов

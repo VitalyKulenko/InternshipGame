@@ -1,8 +1,6 @@
-﻿using System.Drawing;
-
-namespace InternshipGame
+﻿namespace InternshipGame
 {
-    class Brick : IDraw, ILocation, ISize
+    class Brick : ILocation, ISize
     {
         private float x;
         private float y;
@@ -37,11 +35,6 @@ namespace InternshipGame
             this.x = x;
             this.y = y;
             this.width = width;
-        }
-
-        public void Draw() // рисование объекта
-        {
-            Form1.graph.DrawRectangle(Pens.Black, x, y, width, height);
         }
     }
 }

@@ -12,13 +12,11 @@ namespace InternshipGame
                                                              // стартовый угол полета (работает пока только -135, -45, 45 и 135),
                                                              // длина платформы)
         private Bitmap bmp;
-        public static Graphics graph;
+        private Graphics graph;
         private List<Wall> walls = new List<Wall>(3);
         private Ball ball;
         private Platform platform;
         private List<Brick> bricks;
-        int i;
-        int flag;
 
         public Form1()
         {
@@ -28,18 +26,18 @@ namespace InternshipGame
             timer1.Start();
         }
 
-        public void DrawEpisode() // прорисовка каждого кадра
+        private void DrawEpisode() // прорисовка каждого кадра
         {
             for (int i = 0; i < bricks.Count; i++)
-                bricks[i].Draw();
+                BrickDrawing(i);
             for (int i = 0; i <= 2; i++)
-                walls[i].Draw();
-            ball.Draw();
-            platform.Draw();
+                WallDrawing(i);
+            BallDrawing();
+            PlatformDrawing();
             pictureBox1.Image = bmp;
         }
 
-        public void CreateLevel() // создание объектов для уровня, можно менять расположение кирпичиков, 
+        private void CreateLevel() // создание объектов для уровня, можно менять расположение кирпичиков, 
         {                         // их количество задается выше
             walls.Add(new Wall(0, 0, 15, 500));
             walls.Add(new Wall(0, 0, 400, 15));
@@ -135,10 +133,79 @@ namespace InternshipGame
                 }
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graph = Graphics.FromImage(bmp);
-            platform.Draw();
+            PlatformDrawing();
         }
 
-        public void Reflection() // отражения
+        private void BallMovement() // движение шара
+        {
+            graph.Clear(Color.White);
+            switch (ball.Angle)
+            {
+                case 45:
+                    ball.X = ball.X + ball.Speed;
+                    ball.Y = ball.Y - ball.Speed;
+                    break;
+                case -45:
+                    ball.X = ball.X - ball.Speed;
+                    ball.Y = ball.Y - ball.Speed;
+                    break;
+                case -135:
+                    ball.X = ball.X - ball.Speed;
+                    ball.Y = ball.Y + ball.Speed;
+                    break;
+                case 135:
+                    ball.X = ball.X + ball.Speed;
+                    ball.Y = ball.Y + ball.Speed;
+                    break;
+            }
+            BallDrawing();
+        }
+
+        private void PlatformMovementLeft() // ограничитель движения платформы влево
+        {
+            graph.Clear(Color.White);
+            if (platform.X > 15)
+            {
+                platform.X = platform.X - 5;
+                PlatformDrawing();
+            }
+            else
+                PlatformDrawing();
+        }
+
+        private void PlatformMovementRight() // ограничитель движения вправо
+        {
+            graph.Clear(Color.White);
+            if (platform.X < 330)
+            {
+                platform.X = platform.X + 5;
+                PlatformDrawing();
+            }
+            else
+                PlatformDrawing();
+        }
+
+        private void BallDrawing() // рисование шара
+        {
+            graph.DrawEllipse(Pens.Black, ball.X, ball.Y, ball.Width, ball.Height);
+        }
+
+        private void PlatformDrawing() // рисование платформы
+        {
+            graph.DrawRectangle(Pens.Black, platform.X, platform.Y, platform.Width, platform.Height);
+        }
+
+        private void BrickDrawing(int i) // рисование кирпичика
+        {
+            graph.DrawRectangle(Pens.Black, bricks[i].X, bricks[i].Y, bricks[i].Width, bricks[i].Height);
+        }
+
+        private void WallDrawing(int i) // рисование стены
+        {
+            graph.FillRectangle(Brushes.Black, walls[i].X, walls[i].Y, walls[i].Width, walls[i].Height);
+        }
+
+        private void Reflection() // отражения
         {
             // отражение от левой и правой стены
             if (ball.X == walls[0].Width || ball.X == walls[2].X - ball.Width)
@@ -167,9 +234,9 @@ namespace InternshipGame
             if (ball.Angle == -45 || ball.Angle == -135)
                 if (ball.Y >= platform.Y - ball.Height && ball.Y <= platform.Y + platform.Height - ball.Height && ball.X == platform.X + platform.Width)
                     ball.Angle = -ball.Angle;
-            for (i = 0; i < bricks.Count; i++)
+            for (int i = 0; i < bricks.Count; i++)
             {
-                flag = 0;
+                int flag = 0;
                 // отражение от верхнего края кирпичика
                 if (ball.Y == bricks[i].Y - ball.Height && ball.X >= bricks[i].X - ball.Width && ball.X <= bricks[i].X + bricks[i].Width)
                     if (ball.Angle == 135 && ball.X != bricks[i].X + bricks[i].Width)
@@ -291,7 +358,7 @@ namespace InternshipGame
             }
         }
 
-        public void Lose() // проигрыш
+        private void Lose() // проигрыш
         {
             if (ball.Y == 520)
             {
@@ -312,7 +379,7 @@ namespace InternshipGame
             }
         }
 
-        public void Win() // выигрыш
+        private void Win() // выигрыш
         {
             if (bricks.Count == 0)
             {
@@ -337,19 +404,19 @@ namespace InternshipGame
         {
             if (e.KeyData == Keys.Left)
             {
-                platform.MoveLeft();
+                PlatformMovementLeft();
                 DrawEpisode();
             }
             if (e.KeyData == Keys.Right)
             {
-                platform.MoveRight();
+                PlatformMovementRight();
                 DrawEpisode();
             }
         }
 
         private void timer1_Tick(object sender, EventArgs e) // таймер
         {
-            ball.Move();
+            BallMovement();
             Reflection();
             Lose();
             Win();

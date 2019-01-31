@@ -1,8 +1,6 @@
-﻿using System.Drawing;
-
-namespace InternshipGame
+﻿namespace InternshipGame
 {
-    class Platform : IDraw, ILocation, ISize
+    class Platform : ILocation, ISize
     {
         private float x;
         private float y;
@@ -36,36 +34,7 @@ namespace InternshipGame
         {
             this.x = x;
             this.y = y;
-            this.width = sizeOfPlatform;
-        }
-
-        public void Draw() // рисование объекта
-        {
-            Form1.graph.DrawRectangle(Pens.Black, x, y, width, height);
-        }
-
-        public void MoveLeft() // ограничитель движения влево
-        {
-            Form1.graph.Clear(Color.White);
-            if (x > 15)
-            {
-                x = x - 5;
-                Draw();
-            }
-            else
-                Draw();
-        }
-
-        public void MoveRight() // ограничитель движения вправо
-        {
-            Form1.graph.Clear(Color.White);
-            if (x < 330)
-            {
-                x = x + 5;
-                Draw();
-            }
-            else
-                Draw();
+            width = sizeOfPlatform;
         }
     }
 }

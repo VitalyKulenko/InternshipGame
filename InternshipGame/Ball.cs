@@ -1,8 +1,6 @@
-﻿using System.Drawing;
-
-namespace InternshipGame
+﻿namespace InternshipGame
 {
-    class Ball : IDraw, IBall
+    class Ball : IBall
     {
         private float x;
         private float y;
@@ -51,36 +49,6 @@ namespace InternshipGame
             this.y = y;
             this.angle = angle;
             this.speed = speed;
-        }
-
-        public void Draw() // рисование объекта
-        {
-            Form1.graph.DrawEllipse(Pens.Black, x, y, width, height);
-        }
-
-        public void Move() // движение шара
-        {
-            Form1.graph.Clear(Color.White);
-            switch (angle)
-            {
-                case 45:
-                    x = x + speed;
-                    y = y - speed;
-                    break;
-                case -45:
-                    x = x - speed;
-                    y = y - speed;
-                    break;
-                case -135:
-                    x = x - speed;
-                    y = y + speed;
-                    break;
-                case 135:
-                    x = x + speed;
-                    y = y + speed;
-                    break;
-            }
-            Draw();
         }
     }
 }
