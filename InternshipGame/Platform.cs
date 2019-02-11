@@ -2,35 +2,35 @@
 {
     class Platform : ILocation, ISize
     {
-        private float x;
-        private float y;
-        private float width; // ширина
+        private int x;
+        private int y;
+        private int width; // ширина
         const int height = 15; // высота
 
-        public float X
+        public int X
         {
             get { return x; }
             set { x = value; }
         }
 
-        public float Y
+        public int Y
         {
             get { return y; }
             set { y = value; }
         }
 
-        public float Width
+        public int Width
         {
             get { return width; }
             set { width = value; }
         }
 
-        public float Height
+        public int Height
         {
             get { return height; }
         }
 
-        public Platform(float x, float y, float sizeOfPlatform)
+        public Platform(int x, int y, int sizeOfPlatform)
         {
             this.x = x;
             this.y = y;

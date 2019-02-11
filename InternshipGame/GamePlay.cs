@@ -3,9 +3,9 @@
     class GamePlay
     {
         private int numberOfBricks; // количество кирпичей
-        private float speedOfBall; // скорость шара
-        private float angleMoveOfBall; // угол движения шара
-        private float sizeOfPlatform; // размер платформы
+        private int speedOfBall; // скорость шара
+        private int angleMoveOfBall; // угол движения шара
+        private int sizeOfPlatform; // размер платформы
 
         public int NumberOfBricks
         {
@@ -13,25 +13,25 @@
             set { numberOfBricks = value; }
         }
 
-        public float SpeedOfBall
+        public int SpeedOfBall
         {
             get { return speedOfBall; }
             set { speedOfBall = value; }
         }
 
-        public float AngleMoveOfBall
+        public int AngleMoveOfBall
         {
             get { return angleMoveOfBall; }
             set { angleMoveOfBall = value; }
         }
 
-        public float SizeOfPlatform
+        public int SizeOfPlatform
         {
             get { return sizeOfPlatform; }
             set { sizeOfPlatform = value; }
         }
 
-        public GamePlay(int numberOfBricks, float speedOfBall, float angleMoveOfBall, float sizeOfPlatform)
+        public GamePlay(int numberOfBricks, int speedOfBall, int angleMoveOfBall, int sizeOfPlatform)
         {
             this.numberOfBricks = numberOfBricks;
             this.speedOfBall = speedOfBall;

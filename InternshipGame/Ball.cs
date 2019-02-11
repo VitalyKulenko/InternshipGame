@@ -2,48 +2,48 @@
 {
     class Ball : IBall
     {
-        private float x;
-        private float y;
+        private int x;
+        private int y;
         const int width = 10; // ширина
         const int height = 10; // высота
-        private float angle; // угол движения
-        private float speed; // скорость движения
+        private int angle; // угол движения
+        private int speed; // скорость движения
 
-        public float X
+        public int X
         {
             get { return x; }
             set { x = value; }
         }
 
-        public float Y
+        public int Y
         {
             get { return y; }
             set { y = value; }
         }
 
-        public float Width
+        public int Width
         {
             get { return width; }
         }
 
-        public float Height
+        public int Height
         {
             get { return height; }
         }
 
-        public float Angle
+        public int Angle
         {
             get { return angle; }
             set { angle = value; }
         }
 
-        public float Speed
+        public int Speed
         {
             get { return speed; }
             set { speed = value; }
         }
 
-        public Ball(float x, float y, float angle, float speed)
+        public Ball(int x, int y, int angle, int speed)
         {
             this.x = x;
             this.y = y;

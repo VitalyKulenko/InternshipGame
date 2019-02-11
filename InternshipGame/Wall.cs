@@ -2,36 +2,36 @@
 {
     class Wall : ILocation, ISize
     {
-        private float x;
-        private float y;
-        private float width; // ширина
-        private float height; // высота
+        private int x;
+        private int y;
+        private int width; // ширина
+        private int height; // высота
 
-        public float X
+        public int X
         {
             get { return x; }
             set { x = value; }
         }
 
-        public float Y
+        public int Y
         {
             get { return y; }
             set { y = value; }
         }
 
-        public float Width
+        public int Width
         {
             get { return width; }
             set { width = value; }
         }
 
-        public float Height
+        public int Height
         {
             get { return height; }
             set { height = value; }
         }
 
-        public Wall(float x, float y, float width, float height)
+        public Wall(int x, int y, int width, int height)
         {
             this.x = x;
             this.y = y;

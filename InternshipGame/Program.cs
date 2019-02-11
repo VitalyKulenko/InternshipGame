@@ -5,19 +5,19 @@ namespace InternshipGame
 {
     interface IBall // размер шара
     {
-        float X { get; set; } // левый верхний угол
-        float Y { get; set; }
+        int X { get; set; } // левый верхний угол
+        int Y { get; set; }
     }
 
     interface ISize // размеры прямоугольных объектов
     {
-        float Width { get; set; } // длина
+        int Width { get; set; } // длина
     }
 
     interface ILocation // локация прямоугольных объектов
     {
-        float X { get; set; } // левый верхний угол
-        float Y { get; set; }
+        int X { get; set; } // левый верхний угол
+        int Y { get; set; }
     }
 
     static class Program

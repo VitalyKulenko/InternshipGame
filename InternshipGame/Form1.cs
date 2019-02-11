@@ -7,14 +7,16 @@ namespace InternshipGame
 {
     public partial class Form1 : Form
     {
-        private GamePlay game = new GamePlay(54, 5, 45, 70); // создание игры (кол-во кирпичиков, 
-                                                             // скорость шара (максимальная пока 5, еще варианты 2.5, 1.25, 1, 0.5), 
+        private GamePlay game = new GamePlay(54, 5, 45, 70); // создание игры (кол-во кирпичиков), 
+                                                             // скорость шара (только 1 или 5),
                                                              // стартовый угол полета (работает пока только -135, -45, 45 и 135),
                                                              // длина платформы)
         private Bitmap bmp;
         private Graphics graph;
         private List<Wall> walls = new List<Wall>(3);
         private Ball ball;
+        private int limitOverrun; // насколько шар превысил границу объекта
+        private int limitOverrun2;
         private Platform platform;
         private List<Brick> bricks;
 
@@ -23,6 +25,7 @@ namespace InternshipGame
             InitializeComponent();
             CreateLevel();
             DrawEpisode();
+            timer1.Interval = 23; // любое целое число
             timer1.Start();
         }
 
@@ -205,6 +208,182 @@ namespace InternshipGame
             graph.FillRectangle(Brushes.Black, walls[i].X, walls[i].Y, walls[i].Width, walls[i].Height);
         }
 
+        private void Crash() // столкновение
+        {
+            limitOverrun = 0;
+            // столкновение с левой стеной
+            if (ball.X < walls[0].Width)
+            {
+                limitOverrun = walls[0].Width - ball.X;
+                ball.X = ball.X + limitOverrun;
+                ball.Y = ball.Y + limitOverrun;
+            }
+            // столкновение с правой стеной
+            if (ball.X > walls[2].X - ball.Width)
+            {
+                limitOverrun = ball.X - walls[2].X + ball.Width;
+                ball.X = ball.X - limitOverrun;
+                ball.Y = ball.Y - limitOverrun;
+            }
+            // столкновение с верхней стеной
+            if (ball.Y < walls[1].Height)
+            {
+                limitOverrun = walls[1].Height - ball.Y;
+                ball.X = ball.X + limitOverrun;
+                ball.Y = ball.Y + limitOverrun;
+            }
+            // столкновение с платформой
+            if (ball.X >= platform.X - ball.Width && ball.X <= platform.X + platform.Width && ball.Y >= platform.Y - ball.Height && ball.Y <= platform.Y + platform.Height)
+            {
+                if (ball.Angle == 135)
+                {
+                    if (ball.X + ball.Width - platform.X == ball.Y + ball.Height - platform.Y)
+                    {
+                        limitOverrun = platform.Y - ball.Y - ball.Height;
+                        limitOverrun2 = platform.X - ball.X - ball.Width;
+                        ball.X = ball.X + limitOverrun;
+                        ball.Y = ball.Y + limitOverrun2;
+                    }
+                    if (ball.X + ball.Width - platform.X > ball.Y + ball.Height - platform.Y)
+                    {
+                        limitOverrun = platform.Y - ball.Y - ball.Height;
+                        ball.X = ball.X + limitOverrun;
+                        ball.Y = ball.Y + limitOverrun;
+                    }
+                    if (ball.X + ball.Width - platform.X < ball.Y + ball.Height - platform.Y)
+                    {
+                        limitOverrun = platform.X - ball.X - ball.Width;
+                        ball.X = ball.X + limitOverrun;
+                        ball.Y = ball.Y + limitOverrun;
+                    }
+                }
+                if (ball.Angle == -135)
+                {
+                    if (platform.X + platform.Width - ball.X == ball.Y + ball.Height - platform.Y)
+                    {
+                        limitOverrun = platform.Y - ball.Y - ball.Height;
+                        limitOverrun2 = ball.X - platform.X - platform.Width;
+                        ball.X = ball.X - limitOverrun;
+                        ball.Y = ball.Y + limitOverrun2;
+                    }
+                    if (platform.X + platform.Width - ball.X > ball.Y + ball.Height - platform.Y)
+                    {
+                        limitOverrun = platform.Y - ball.Y - ball.Height;
+                        ball.X = ball.X + limitOverrun;
+                        ball.Y = ball.Y + limitOverrun;
+                    }
+                    if (platform.X + platform.Width - ball.X < ball.Y + ball.Height - platform.Y)
+                    {
+                        limitOverrun = ball.X - platform.X - platform.Width;
+                        ball.X = ball.X - limitOverrun;
+                        ball.Y = ball.Y - limitOverrun;
+                    }
+                }
+            }
+            // столкновение с кирпичиком
+            for (int i = 0; i < bricks.Count; i++)
+            {
+                if (ball.X >= bricks[i].X - ball.Width && ball.X <= bricks[i].X + bricks[i].Width && ball.Y >= bricks[i].Y - ball.Height && ball.Y <= bricks[i].Y + bricks[i].Height)
+                {
+                    if (ball.Angle == 135)
+                    {
+                        if (ball.X + ball.Width - bricks[i].X == ball.Y + ball.Height - bricks[i].Y)
+                        {
+                            limitOverrun = bricks[i].Y - ball.Y - ball.Height;
+                            limitOverrun2 = bricks[i].X - ball.X - ball.Width;
+                            ball.X = ball.X + limitOverrun;
+                            ball.Y = ball.Y + limitOverrun2;
+                        }
+                        if (ball.X - bricks[i].X > ball.Y + ball.Height - bricks[i].Y)
+                        {
+                            limitOverrun = bricks[i].Y - ball.Y - ball.Height;
+                            ball.X = ball.X + limitOverrun;
+                            ball.Y = ball.Y + limitOverrun;
+                        }
+                        if (ball.X + ball.Width - bricks[i].X < ball.Y - bricks[i].Y)
+                        {
+                            limitOverrun = bricks[i].X - ball.X - ball.Width;
+                            ball.X = ball.X + limitOverrun;
+                            ball.Y = ball.Y + limitOverrun;
+                        }
+                    }
+                    if (ball.Angle == -135)
+                    {
+                        if (platform.X + platform.Width - ball.X == ball.Y + ball.Height - platform.Y)
+                        {
+                            limitOverrun = bricks[i].Y - ball.Y - ball.Height;
+                            limitOverrun2 = ball.X - bricks[i].X - platform.Width;
+                            ball.X = ball.X - limitOverrun;
+                            ball.Y = ball.Y + limitOverrun2;
+                        }
+                        if (bricks[i].X + bricks[i].Width - ball.X > ball.Y + ball.Height - bricks[i].Y)
+                        {
+                            limitOverrun = bricks[i].Y - ball.Y - ball.Height;
+                            ball.X = ball.X + limitOverrun;
+                            ball.Y = ball.Y + limitOverrun;
+                        }
+                        if (bricks[i].X + bricks[i].Width - ball.X < ball.Y - bricks[i].Y)
+                        {
+                            limitOverrun = ball.X - bricks[i].X - bricks[i].Width;
+                            ball.X = ball.X - limitOverrun;
+                            ball.Y = ball.Y - limitOverrun;
+                        }
+                    }
+                    if (ball.Angle == 45)
+                    {
+                        if (ball.X + ball.Width - bricks[i].X == ball.Y - bricks[i].Y - bricks[i].Height)
+                        {
+                            limitOverrun = bricks[i].Y + bricks[i].Height - ball.Y;
+                            limitOverrun2 = bricks[i].X - ball.Width - ball.X;
+                            ball.X = ball.X - limitOverrun;
+                            ball.Y = ball.Y + limitOverrun2;
+                        }
+                        if (ball.X - bricks[i].X > ball.Y - bricks[i].Y - bricks[i].Height)
+                        {
+                            limitOverrun = bricks[i].Y + bricks[i].Height - ball.Y;
+                            if (ball.X - limitOverrun >= bricks[i].X || ball.Y - limitOverrun >= bricks[i].Y)
+                            {
+                                ball.X = ball.X - limitOverrun;
+                                ball.Y = ball.Y - limitOverrun;
+                            }
+                        }
+                        if (ball.X + ball.Width - bricks[i].X < ball.Y - bricks[i].Y - bricks[i].Height)
+                        {
+                            limitOverrun = bricks[i].X - ball.Width - ball.X;
+                            ball.X = ball.X - limitOverrun;
+                            ball.Y = ball.Y - limitOverrun;
+                        }
+                    }
+                    if (ball.Angle == -45)
+                    {
+                        if (bricks[i].X + bricks[i].Width - ball.X == ball.Y - bricks[i].Y - bricks[i].Height)
+                        {
+                            limitOverrun = bricks[i].Y + bricks[i].Height - ball.Y;
+                            limitOverrun2 = ball.X - bricks[i].X - bricks[i].Width;
+                            ball.X = ball.X - limitOverrun;
+                            ball.Y = ball.Y + limitOverrun2;
+                        }
+                        if (bricks[i].X + bricks[i].Width - ball.X > ball.Y - bricks[i].Y - bricks[i].Height)
+                        {
+                            limitOverrun = bricks[i].Y + bricks[i].Height - ball.Y;
+                            if (ball.X + limitOverrun <= bricks[i].X || ball.Y + limitOverrun >= bricks[i].Y)
+                            {
+                                ball.X = ball.X + limitOverrun;
+                                ball.Y = ball.Y + limitOverrun;
+                            }
+                        }
+                        if (bricks[i].X + bricks[i].Width - ball.X < ball.Y - bricks[i].Y - bricks[i].Height)
+                        {
+                            limitOverrun = ball.X - bricks[i].X - bricks[i].Width;
+                            ball.X = ball.X - limitOverrun;
+                            ball.Y = ball.Y - limitOverrun;
+                        }
+                    }
+                }
+            }
+            Reflection();
+        }
+
         private void Reflection() // отражения
         {
             // отражение от левой и правой стены
@@ -228,11 +407,11 @@ namespace InternshipGame
             }
             // отражение от левого края платформы
             if (ball.Angle == 45 || ball.Angle == 135)
-                if (ball.Y >= platform.Y - ball.Height && ball.Y <= platform.Y + platform.Height - ball.Height && ball.X == platform.X - ball.Width)
+                if (ball.Y >= platform.Y - ball.Height && ball.Y <= platform.Y + platform.Height && ball.X == platform.X - ball.Width)
                     ball.Angle = -ball.Angle;
             // отражение от правого края платформы
             if (ball.Angle == -45 || ball.Angle == -135)
-                if (ball.Y >= platform.Y - ball.Height && ball.Y <= platform.Y + platform.Height - ball.Height && ball.X == platform.X + platform.Width)
+                if (ball.Y >= platform.Y - ball.Height && ball.Y <= platform.Y + platform.Height && ball.X == platform.X + platform.Width)
                     ball.Angle = -ball.Angle;
             for (int i = 0; i < bricks.Count; i++)
             {
@@ -360,7 +539,7 @@ namespace InternshipGame
 
         private void Lose() // проигрыш
         {
-            if (ball.Y == 520)
+            if (ball.Y > 520)
             {
                 timer1.Stop();
                 var result = MessageBox.Show(
@@ -417,7 +596,7 @@ namespace InternshipGame
         private void timer1_Tick(object sender, EventArgs e) // таймер
         {
             BallMovement();
-            Reflection();
+            Crash();
             Lose();
             Win();
             DrawEpisode();
