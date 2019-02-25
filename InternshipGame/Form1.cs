@@ -7,8 +7,7 @@ namespace InternshipGame
 {
     public partial class Form1 : Form
     {
-        private GamePlay game = new GamePlay(54, 5, 45, 70); // создание игры (кол-во кирпичиков), 
-                                                             // скорость шара (только 1 или 5),
+        private GamePlay game = new GamePlay(54, 45, 70); // создание игры (кол-во кирпичиков), 
                                                              // стартовый угол полета (работает пока только -135, -45, 45 и 135),
                                                              // длина платформы)
         private Bitmap bmp;
@@ -25,18 +24,18 @@ namespace InternshipGame
             InitializeComponent();
             CreateLevel();
             DrawEpisode();
-            timer1.Interval = 23; // любое целое число
+            timer1.Interval = 27; // скорость игры, любое целое число
             timer1.Start();
         }
 
         private void DrawEpisode() // прорисовка каждого кадра
         {
             for (int i = 0; i < bricks.Count; i++)
-                BrickDrawing(i);
+                bricks[i].BrickDrawing(i, graph);
             for (int i = 0; i <= 2; i++)
-                WallDrawing(i);
-            BallDrawing();
-            PlatformDrawing();
+                walls[i].WallDrawing(i, graph);
+            ball.BallDrawing(graph);
+            platform.PlatformDrawing(graph);
             pictureBox1.Image = bmp;
         }
 
@@ -45,7 +44,7 @@ namespace InternshipGame
             walls.Add(new Wall(0, 0, 15, 500));
             walls.Add(new Wall(0, 0, 400, 15));
             walls.Add(new Wall(400, 0, 15, 500));
-            ball = new Ball(200, 350, game.AngleMoveOfBall, game.SpeedOfBall);
+            ball = new Ball(200, 350, game.AngleMoveOfBall);
             platform = new Platform(200, 470, game.SizeOfPlatform);
             bricks = new List<Brick>(game.NumberOfBricks);
             for (int i = 0; i < game.NumberOfBricks; i++)
@@ -136,7 +135,7 @@ namespace InternshipGame
                 }
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graph = Graphics.FromImage(bmp);
-            PlatformDrawing();
+            platform.PlatformDrawing(graph);
         }
 
         private void BallMovement() // движение шара
@@ -161,7 +160,7 @@ namespace InternshipGame
                     ball.Y = ball.Y + ball.Speed;
                     break;
             }
-            BallDrawing();
+            ball.BallDrawing(graph);
         }
 
         private void PlatformMovementLeft() // ограничитель движения платформы влево
@@ -169,11 +168,11 @@ namespace InternshipGame
             graph.Clear(Color.White);
             if (platform.X > 15)
             {
-                platform.X = platform.X - 5;
-                PlatformDrawing();
+                platform.X = platform.X - 10;
+                platform.PlatformDrawing(graph);
             }
             else
-                PlatformDrawing();
+                platform.PlatformDrawing(graph);
         }
 
         private void PlatformMovementRight() // ограничитель движения вправо
@@ -181,31 +180,11 @@ namespace InternshipGame
             graph.Clear(Color.White);
             if (platform.X < 330)
             {
-                platform.X = platform.X + 5;
-                PlatformDrawing();
+                platform.X = platform.X + 10;
+                platform.PlatformDrawing(graph);
             }
             else
-                PlatformDrawing();
-        }
-
-        private void BallDrawing() // рисование шара
-        {
-            graph.DrawEllipse(Pens.Black, ball.X, ball.Y, ball.Width, ball.Height);
-        }
-
-        private void PlatformDrawing() // рисование платформы
-        {
-            graph.DrawRectangle(Pens.Black, platform.X, platform.Y, platform.Width, platform.Height);
-        }
-
-        private void BrickDrawing(int i) // рисование кирпичика
-        {
-            graph.DrawRectangle(Pens.Black, bricks[i].X, bricks[i].Y, bricks[i].Width, bricks[i].Height);
-        }
-
-        private void WallDrawing(int i) // рисование стены
-        {
-            graph.FillRectangle(Brushes.Black, walls[i].X, walls[i].Y, walls[i].Width, walls[i].Height);
+                platform.PlatformDrawing(graph);
         }
 
         private void Crash() // столкновение

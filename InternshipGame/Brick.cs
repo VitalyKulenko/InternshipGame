@@ -1,4 +1,6 @@
-﻿namespace InternshipGame
+﻿using System.Drawing;
+
+namespace InternshipGame
 {
     class Brick : ILocation, ISize
     {
@@ -35,6 +37,11 @@
             this.x = x;
             this.y = y;
             this.width = width;
+        }
+
+        public void BrickDrawing(int i, Graphics graph) // рисование кирпичика
+        {
+            graph.DrawRectangle(Pens.Black, X, Y, Width, Height);
         }
     }
 }

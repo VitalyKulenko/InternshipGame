@@ -1,4 +1,6 @@
-﻿namespace InternshipGame
+﻿using System.Drawing;
+
+namespace InternshipGame
 {
     class Wall : ILocation, ISize
     {
@@ -37,6 +39,11 @@
             this.y = y;
             this.width = width;
             this.height = height;
+        }
+
+        public void WallDrawing(int i, Graphics graph) // рисование стены
+        {
+            graph.FillRectangle(Brushes.Black, X, Y, Width, Height);
         }
     }
 }

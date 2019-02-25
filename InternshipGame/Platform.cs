@@ -1,4 +1,6 @@
-﻿namespace InternshipGame
+﻿using System.Drawing;
+
+namespace InternshipGame
 {
     class Platform : ILocation, ISize
     {
@@ -35,6 +37,11 @@
             this.x = x;
             this.y = y;
             width = sizeOfPlatform;
+        }
+
+        public void PlatformDrawing(Graphics graph) // рисование платформы
+        {
+            graph.DrawRectangle(Pens.Black, X, Y, Width, Height);
         }
     }
 }

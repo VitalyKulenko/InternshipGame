@@ -1,4 +1,6 @@
-﻿namespace InternshipGame
+﻿using System.Drawing;
+
+namespace InternshipGame
 {
     class Ball : IBall
     {
@@ -7,7 +9,7 @@
         const int width = 10; // ширина
         const int height = 10; // высота
         private int angle; // угол движения
-        private int speed; // скорость движения
+        const int speed = 5; // скорость движения
 
         public int X
         {
@@ -40,15 +42,18 @@
         public int Speed
         {
             get { return speed; }
-            set { speed = value; }
         }
 
-        public Ball(int x, int y, int angle, int speed)
+        public Ball(int x, int y, int angle)
         {
             this.x = x;
             this.y = y;
             this.angle = angle;
-            this.speed = speed;
+        }
+
+        public void BallDrawing(Graphics graph) // рисование шара
+        {
+            graph.DrawEllipse(Pens.Black, X, Y, Width, Height);
         }
     }
 }
