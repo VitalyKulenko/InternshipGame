@@ -7,8 +7,8 @@ namespace InternshipGame
 {
     public partial class Form1 : Form
     {
-        private GamePlay game = new GamePlay(54, 45, 70); // создание игры (кол-во кирпичиков), 
-                                                             // стартовый угол полета (работает пока только -135, -45, 45 и 135),
+        private GamePlay game = new GamePlay(54, 45, 70); // создание игры (кол-во кирпичиков, 
+                                                             // стартовый угол движения шара,
                                                              // длина платформы)
         private Bitmap bmp;
         private Graphics graph;
@@ -18,6 +18,14 @@ namespace InternshipGame
         private int limitOverrun2;
         private Platform platform;
         private List<Brick> bricks;
+        const int angleUpRight = 45; // угол движения вверх вправо
+        const int angleUpLeft = -45; // угол движения вверх влево
+        const int angleDownRight = 135; // угол движения вниз вправо
+        const int angleDownLeft = -135; // угол движения вниз влево
+        const int loseLevelPx = 520; // уровень проигрыша
+        const int widthOfBrick = 30; // ширина кирпичей
+        const int borderLeft = 15; // левая граница для платформы
+        const int borderRight = 330; // правая граница для платформы
 
         public Form1()
         {
@@ -60,31 +68,31 @@ namespace InternshipGame
                     case 7:
                     case 8:
                     case 9:
-                        bricks.Add(new Brick(55 + i * 30, 50, 30));
+                        bricks.Add(new Brick(55 + i * 30, 50, widthOfBrick));
                         break;
                     case 10:
                     case 11:
                     case 12:
                     case 13:
-                        bricks.Add(new Brick(55 + i * 30 - 300, 80, 30));
+                        bricks.Add(new Brick(55 + i * 30 - 300, 80, widthOfBrick));
                         break;
                     case 14:
                     case 15:
                     case 16:
                     case 17:
-                        bricks.Add(new Brick(55 + i * 30 - 240, 80, 30));
+                        bricks.Add(new Brick(55 + i * 30 - 240, 80, widthOfBrick));
                         break;
                     case 18:
                     case 19:
-                        bricks.Add(new Brick(55 + i * 30 - 540, 110, 30));
+                        bricks.Add(new Brick(55 + i * 30 - 540, 110, widthOfBrick));
                         break;
                     case 20:
                     case 21:
-                        bricks.Add(new Brick(55 + i * 30 - 480, 110, 30));
+                        bricks.Add(new Brick(55 + i * 30 - 480, 110, widthOfBrick));
                         break;
                     case 22:
                     case 23:
-                        bricks.Add(new Brick(55 + i * 30 - 420, 110, 30));
+                        bricks.Add(new Brick(55 + i * 30 - 420, 110, widthOfBrick));
                         break;
                     case 24:
                     case 25:
@@ -92,31 +100,31 @@ namespace InternshipGame
                     case 27:
                     case 28:
                     case 29:
-                        bricks.Add(new Brick(55 + i * 30 - 660, 140, 30));
+                        bricks.Add(new Brick(55 + i * 30 - 660, 140, widthOfBrick));
                         break;
                     case 30:
                     case 31:
-                        bricks.Add(new Brick(55 + i * 30 - 900, 170, 30));
+                        bricks.Add(new Brick(55 + i * 30 - 900, 170, widthOfBrick));
                         break;
                     case 32:
                     case 33:
-                        bricks.Add(new Brick(55 + i * 30 - 840, 170, 30));
+                        bricks.Add(new Brick(55 + i * 30 - 840, 170, widthOfBrick));
                         break;
                     case 34:
                     case 35:
-                        bricks.Add(new Brick(55 + i * 30 - 780, 170, 30));
+                        bricks.Add(new Brick(55 + i * 30 - 780, 170, widthOfBrick));
                         break;
                     case 36:
                     case 37:
                     case 38:
                     case 39:
-                        bricks.Add(new Brick(55 + i * 30 - 1080, 200, 30));
+                        bricks.Add(new Brick(55 + i * 30 - 1080, 200, widthOfBrick));
                         break;
                     case 40:
                     case 41:
                     case 42:
                     case 43:
-                        bricks.Add(new Brick(55 + i * 30 - 1020, 200, 30));
+                        bricks.Add(new Brick(55 + i * 30 - 1020, 200, widthOfBrick));
                         break;
                     case 44:
                     case 45:
@@ -128,7 +136,7 @@ namespace InternshipGame
                     case 51:
                     case 52:
                     case 53:
-                        bricks.Add(new Brick(55 + i * 30 - 1320, 230, 30));
+                        bricks.Add(new Brick(55 + i * 30 - 1320, 230, widthOfBrick));
                         break;
                     default:
                         break;
@@ -143,19 +151,19 @@ namespace InternshipGame
             graph.Clear(Color.White);
             switch (ball.Angle)
             {
-                case 45:
+                case angleUpRight:
                     ball.X = ball.X + ball.Speed;
                     ball.Y = ball.Y - ball.Speed;
                     break;
-                case -45:
+                case angleUpLeft:
                     ball.X = ball.X - ball.Speed;
                     ball.Y = ball.Y - ball.Speed;
                     break;
-                case -135:
+                case angleDownLeft:
                     ball.X = ball.X - ball.Speed;
                     ball.Y = ball.Y + ball.Speed;
                     break;
-                case 135:
+                case angleDownRight:
                     ball.X = ball.X + ball.Speed;
                     ball.Y = ball.Y + ball.Speed;
                     break;
@@ -166,7 +174,7 @@ namespace InternshipGame
         private void PlatformMovementLeft() // ограничитель движения платформы влево
         {
             graph.Clear(Color.White);
-            if (platform.X > 15)
+            if (platform.X > borderLeft)
             {
                 platform.X = platform.X - 10;
                 platform.PlatformDrawing(graph);
@@ -178,7 +186,7 @@ namespace InternshipGame
         private void PlatformMovementRight() // ограничитель движения вправо
         {
             graph.Clear(Color.White);
-            if (platform.X < 330)
+            if (platform.X < borderRight)
             {
                 platform.X = platform.X + 10;
                 platform.PlatformDrawing(graph);
@@ -214,7 +222,7 @@ namespace InternshipGame
             // столкновение с платформой
             if (ball.X >= platform.X - ball.Width && ball.X <= platform.X + platform.Width && ball.Y >= platform.Y - ball.Height && ball.Y <= platform.Y + platform.Height)
             {
-                if (ball.Angle == 135)
+                if (ball.Angle == angleDownRight)
                 {
                     if (ball.X + ball.Width - platform.X == ball.Y + ball.Height - platform.Y)
                     {
@@ -236,7 +244,7 @@ namespace InternshipGame
                         ball.Y = ball.Y + limitOverrun;
                     }
                 }
-                if (ball.Angle == -135)
+                if (ball.Angle == angleDownLeft)
                 {
                     if (platform.X + platform.Width - ball.X == ball.Y + ball.Height - platform.Y)
                     {
@@ -264,7 +272,7 @@ namespace InternshipGame
             {
                 if (ball.X >= bricks[i].X - ball.Width && ball.X <= bricks[i].X + bricks[i].Width && ball.Y >= bricks[i].Y - ball.Height && ball.Y <= bricks[i].Y + bricks[i].Height)
                 {
-                    if (ball.Angle == 135)
+                    if (ball.Angle == angleDownRight)
                     {
                         if (ball.X + ball.Width - bricks[i].X == ball.Y + ball.Height - bricks[i].Y)
                         {
@@ -286,7 +294,7 @@ namespace InternshipGame
                             ball.Y = ball.Y + limitOverrun;
                         }
                     }
-                    if (ball.Angle == -135)
+                    if (ball.Angle == angleDownLeft)
                     {
                         if (platform.X + platform.Width - ball.X == ball.Y + ball.Height - platform.Y)
                         {
@@ -308,7 +316,7 @@ namespace InternshipGame
                             ball.Y = ball.Y - limitOverrun;
                         }
                     }
-                    if (ball.Angle == 45)
+                    if (ball.Angle == angleUpRight)
                     {
                         if (ball.X + ball.Width - bricks[i].X == ball.Y - bricks[i].Y - bricks[i].Height)
                         {
@@ -333,7 +341,7 @@ namespace InternshipGame
                             ball.Y = ball.Y - limitOverrun;
                         }
                     }
-                    if (ball.Angle == -45)
+                    if (ball.Angle == angleUpLeft)
                     {
                         if (bricks[i].X + bricks[i].Width - ball.X == ball.Y - bricks[i].Y - bricks[i].Height)
                         {
@@ -371,7 +379,7 @@ namespace InternshipGame
             // отражение от верхней стены
             if (ball.Y == walls[1].Height)
             {
-                if (ball.Angle == 45)
+                if (ball.Angle == angleUpRight)
                     ball.Angle = ball.Angle + 90;
                 else
                     ball.Angle = ball.Angle - 90;
@@ -379,17 +387,17 @@ namespace InternshipGame
             // отражение от верхнего края платформы
             if (ball.Y == platform.Y - ball.Height && ball.X >= platform.X - ball.Width && ball.X <= platform.X + platform.Width)
             {
-                if (ball.Angle == 135 && ball.X != platform.X + platform.Width)
+                if (ball.Angle == angleDownRight && ball.X != platform.X + platform.Width)
                     ball.Angle = ball.Angle - 90;
                 else
                     ball.Angle = ball.Angle + 90;
             }
             // отражение от левого края платформы
-            if (ball.Angle == 45 || ball.Angle == 135)
+            if (ball.Angle == angleUpRight || ball.Angle == angleDownRight)
                 if (ball.Y >= platform.Y - ball.Height && ball.Y <= platform.Y + platform.Height && ball.X == platform.X - ball.Width)
                     ball.Angle = -ball.Angle;
             // отражение от правого края платформы
-            if (ball.Angle == -45 || ball.Angle == -135)
+            if (ball.Angle == angleUpLeft || ball.Angle == angleDownLeft)
                 if (ball.Y >= platform.Y - ball.Height && ball.Y <= platform.Y + platform.Height && ball.X == platform.X + platform.Width)
                     ball.Angle = -ball.Angle;
             for (int i = 0; i < bricks.Count; i++)
@@ -397,7 +405,7 @@ namespace InternshipGame
                 int flag = 0;
                 // отражение от верхнего края кирпичика
                 if (ball.Y == bricks[i].Y - ball.Height && ball.X >= bricks[i].X - ball.Width && ball.X <= bricks[i].X + bricks[i].Width)
-                    if (ball.Angle == 135 && ball.X != bricks[i].X + bricks[i].Width)
+                    if (ball.Angle == angleDownRight && ball.X != bricks[i].X + bricks[i].Width)
                     {
                         if (i <= bricks.Count - 2)
                         {
@@ -418,7 +426,7 @@ namespace InternshipGame
                             flag++;
                         }
                     }
-                    else if (ball.Angle == -135 && ball.X != bricks[i].X - ball.Width)
+                    else if (ball.Angle == angleDownLeft && ball.X != bricks[i].X - ball.Width)
                     {
                         if (i <= bricks.Count - 2)
                         {
@@ -441,7 +449,7 @@ namespace InternshipGame
                     }
                 // отражение от нижнего края кирпичика
                 if (ball.Y == bricks[i].Y + bricks[i].Height && ball.X >= bricks[i].X - ball.Width && ball.X <= bricks[i].X + bricks[i].Width)
-                    if (ball.Angle == 45 && ball.X != bricks[i].X + bricks[i].Width)
+                    if (ball.Angle == angleUpRight && ball.X != bricks[i].X + bricks[i].Width)
                     {
                         if (i <= bricks.Count - 2)
                         {
@@ -462,7 +470,7 @@ namespace InternshipGame
                             flag++;
                         }
                     }
-                    else if (ball.Angle == -45 && ball.X != bricks[i].X - ball.Width)
+                    else if (ball.Angle == angleUpLeft && ball.X != bricks[i].X - ball.Width)
                     {
                         if (i <= bricks.Count - 2)
                         {
@@ -486,12 +494,12 @@ namespace InternshipGame
                 // отражение от левого края кирпичика
                 if (ball.Y >= bricks[i].Y - ball.Height && ball.Y <= bricks[i].Y + bricks[i].Height && ball.X == bricks[i].X - ball.Width)
                 {
-                    if (ball.Angle == 45 && (ball.Y != bricks[i].Y - ball.Height || flag == 1))
+                    if (ball.Angle == angleUpRight && (ball.Y != bricks[i].Y - ball.Height || flag == 1))
                     {
                         ball.Angle = -ball.Angle;
                         flag++;
                     }
-                    if (ball.Angle == 135 && (ball.Y != bricks[i].Y + bricks[i].Height || flag == 1))
+                    if (ball.Angle == angleDownRight && (ball.Y != bricks[i].Y + bricks[i].Height || flag == 1))
                     {
                         ball.Angle = -ball.Angle;
                         flag++;
@@ -500,12 +508,12 @@ namespace InternshipGame
                 // отражение от правого края кирпичика
                 if (ball.Y >= bricks[i].Y - ball.Height && ball.Y <= bricks[i].Y + bricks[i].Height && ball.X == bricks[i].X + bricks[i].Width)
                 {
-                    if (ball.Angle == -45 && (ball.Y != bricks[i].Y - ball.Height || flag == 1))
+                    if (ball.Angle == angleUpLeft && (ball.Y != bricks[i].Y - ball.Height || flag == 1))
                     {
                         ball.Angle = -ball.Angle;
                         flag++;
                     }
-                    if (ball.Angle == -135 && (ball.Y != bricks[i].Y + bricks[i].Height || flag == 1))
+                    if (ball.Angle == angleDownLeft && (ball.Y != bricks[i].Y + bricks[i].Height || flag == 1))
                     {
                         ball.Angle = -ball.Angle;
                         flag++;
@@ -518,7 +526,7 @@ namespace InternshipGame
 
         private void Lose() // проигрыш
         {
-            if (ball.Y > 520)
+            if (ball.Y > loseLevelPx)
             {
                 timer1.Stop();
                 var result = MessageBox.Show(

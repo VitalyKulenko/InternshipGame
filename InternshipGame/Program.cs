@@ -3,11 +3,6 @@ using System.Windows.Forms;
 
 namespace InternshipGame
 {
-    interface IBall // размер шара
-    {
-        int X { get; set; } // левый верхний угол
-        int Y { get; set; }
-    }
 
     interface ISize // размеры прямоугольных объектов
     {

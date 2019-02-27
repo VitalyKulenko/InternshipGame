@@ -2,7 +2,7 @@
 
 namespace InternshipGame
 {
-    class Ball : IBall
+    class Ball : ILocation
     {
         private int x;
         private int y;
