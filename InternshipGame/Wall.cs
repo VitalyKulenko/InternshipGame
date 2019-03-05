@@ -2,7 +2,7 @@
 
 namespace InternshipGame
 {
-    class Wall : ILocation, ISize
+    class Wall : IWall
     {
         private int x;
         private int y;
@@ -41,7 +41,7 @@ namespace InternshipGame
             this.height = height;
         }
 
-        public void WallDrawing(int i, Graphics graph) // рисование стены
+        public void Draw(Graphics graph) // рисование стены
         {
             graph.FillRectangle(Brushes.Black, X, Y, Width, Height);
         }

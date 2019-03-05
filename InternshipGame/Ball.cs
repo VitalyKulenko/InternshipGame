@@ -2,7 +2,7 @@
 
 namespace InternshipGame
 {
-    class Ball : ILocation
+    class Ball : IBall
     {
         private int x;
         private int y;
@@ -51,7 +51,7 @@ namespace InternshipGame
             this.angle = angle;
         }
 
-        public void BallDrawing(Graphics graph) // рисование шара
+        public void Draw(Graphics graph) // рисование шара
         {
             graph.DrawEllipse(Pens.Black, X, Y, Width, Height);
         }

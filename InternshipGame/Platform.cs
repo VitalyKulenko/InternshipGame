@@ -2,7 +2,7 @@
 
 namespace InternshipGame
 {
-    class Platform : ILocation, ISize
+    class Platform : IPlatform
     {
         private int x;
         private int y;
@@ -39,7 +39,7 @@ namespace InternshipGame
             width = sizeOfPlatform;
         }
 
-        public void PlatformDrawing(Graphics graph) // рисование платформы
+        public void Draw(Graphics graph) // рисование платформы
         {
             graph.DrawRectangle(Pens.Black, X, Y, Width, Height);
         }

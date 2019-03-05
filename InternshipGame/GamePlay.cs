@@ -9,19 +9,16 @@
         public int NumberOfBricks
         {
             get { return numberOfBricks; }
-            set { numberOfBricks = value; }
         }
 
         public int AngleMoveOfBall
         {
             get { return angleMoveOfBall; }
-            set { angleMoveOfBall = value; }
         }
 
         public int SizeOfPlatform
         {
             get { return sizeOfPlatform; }
-            set { sizeOfPlatform = value; }
         }
 
         public GamePlay(int numberOfBricks, int angleMoveOfBall, int sizeOfPlatform)

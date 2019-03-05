@@ -2,7 +2,7 @@
 
 namespace InternshipGame
 {
-    class Brick : ILocation, ISize
+    class Brick : IBrick
     {
         private int x;
         private int y;
@@ -39,7 +39,7 @@ namespace InternshipGame
             this.width = width;
         }
 
-        public void BrickDrawing(int i, Graphics graph) // рисование кирпичика
+        public void Draw(Graphics graph) // рисование кирпичика
         {
             graph.DrawRectangle(Pens.Black, X, Y, Width, Height);
         }

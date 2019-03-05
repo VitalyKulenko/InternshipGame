@@ -39,11 +39,11 @@ namespace InternshipGame
         private void DrawEpisode() // прорисовка каждого кадра
         {
             for (int i = 0; i < bricks.Count; i++)
-                bricks[i].BrickDrawing(i, graph);
+                bricks[i].Draw(graph);
             for (int i = 0; i <= 2; i++)
-                walls[i].WallDrawing(i, graph);
-            ball.BallDrawing(graph);
-            platform.PlatformDrawing(graph);
+                walls[i].Draw(graph);
+            ball.Draw(graph);
+            platform.Draw(graph);
             pictureBox1.Image = bmp;
         }
 
@@ -143,7 +143,7 @@ namespace InternshipGame
                 }
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graph = Graphics.FromImage(bmp);
-            platform.PlatformDrawing(graph);
+            platform.Draw(graph);
         }
 
         private void BallMovement() // движение шара
@@ -168,7 +168,7 @@ namespace InternshipGame
                     ball.Y = ball.Y + ball.Speed;
                     break;
             }
-            ball.BallDrawing(graph);
+            ball.Draw(graph);
         }
 
         private void PlatformMovementLeft() // ограничитель движения платформы влево
@@ -177,10 +177,10 @@ namespace InternshipGame
             if (platform.X > borderLeft)
             {
                 platform.X = platform.X - 10;
-                platform.PlatformDrawing(graph);
+                platform.Draw(graph);
             }
             else
-                platform.PlatformDrawing(graph);
+                platform.Draw(graph);
         }
 
         private void PlatformMovementRight() // ограничитель движения вправо
@@ -189,10 +189,10 @@ namespace InternshipGame
             if (platform.X < borderRight)
             {
                 platform.X = platform.X + 10;
-                platform.PlatformDrawing(graph);
+                platform.Draw(graph);
             }
             else
-                platform.PlatformDrawing(graph);
+                platform.Draw(graph);
         }
 
         private void Crash() // столкновение
