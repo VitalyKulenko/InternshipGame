@@ -5,13 +5,19 @@ using System.Windows.Forms;
 namespace InternshipGame
 {
 
-    interface IBall : ILocation, IDraw { } // шар
-
     interface IWall : ILocation, ISize, IDraw { } // стены
 
     interface IPlatform : ILocation, ISize, IDraw { } // платформа
 
     interface IBrick : ILocation, ISize, IDraw { } // кирпичи
+
+    interface IBall : ILocation, IDraw // шар
+    {
+        int Width { get; } // ширина
+        int Height { get; } // длина
+        int Angle { get; set; } // угол
+        int Speed { get; } // скорость
+    }
 
     interface IDraw // рисование
     {
@@ -20,7 +26,7 @@ namespace InternshipGame
 
     interface ISize // размеры прямоугольных объектов
     {
-        int Width { get; set; } // длина
+        int Width { get; set; } // ширина
         int Height { get; } // длина
     }
 

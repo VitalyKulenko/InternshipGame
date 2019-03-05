@@ -12,12 +12,12 @@ namespace InternshipGame
                                                              // длина платформы)
         private Bitmap bmp;
         private Graphics graph;
-        private List<Wall> walls = new List<Wall>(3);
-        private Ball ball;
+        private List<IWall> walls = new List<IWall>(3);
+        private IBall ball;
         private int limitOverrun; // насколько шар превысил границу объекта
         private int limitOverrun2;
-        private Platform platform;
-        private List<Brick> bricks;
+        private IPlatform platform;
+        private List<IBrick> bricks;
         const int angleUpRight = 45; // угол движения вверх вправо
         const int angleUpLeft = -45; // угол движения вверх влево
         const int angleDownRight = 135; // угол движения вниз вправо
@@ -54,7 +54,7 @@ namespace InternshipGame
             walls.Add(new Wall(400, 0, 15, 500));
             ball = new Ball(200, 350, game.AngleMoveOfBall);
             platform = new Platform(200, 470, game.SizeOfPlatform);
-            bricks = new List<Brick>(game.NumberOfBricks);
+            bricks = new List<IBrick>(game.NumberOfBricks);
             for (int i = 0; i < game.NumberOfBricks; i++)
                 switch (i)
                 {
